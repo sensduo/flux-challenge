@@ -1,4 +1,3 @@
-
 jest.dontMock('../JediActions');
 var JediActions = require('../JediActions');
 
@@ -27,6 +26,4 @@ describe('Actions: JediActions', () => {
       expect(scrollDownAction.from).toEqual('test');
     });
   });
-
-
 });
