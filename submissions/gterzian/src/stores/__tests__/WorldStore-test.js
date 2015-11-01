@@ -26,4 +26,14 @@ describe('Stores: WorldStore', () => {
       expect(Map.isMap(state)).toEqual(true);
     });
   });
+
+  describe('WorldStore.getState()', () => {
+    it('Should reflect dispacted changes in world', () => {
+      Dispatcher.dispatch({type: 'NEW_WORLD', id: 123, name: 'earth'});
+      var state = WorldStore.getState();
+      expect(state.get("id")).toEqual(123);
+      expect(state.get("name")).toEqual("earth");
+    });
+  });
+
 });
