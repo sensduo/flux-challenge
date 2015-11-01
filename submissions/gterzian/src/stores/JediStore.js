@@ -37,7 +37,6 @@ class JediStore extends ReduceStore {
           return state;
         }
 
-
       case 'NEW_WORLD':
         return state.map(jedi => {
           if (jedi.homeworld.id === action.id) {
