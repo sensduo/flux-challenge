@@ -10,9 +10,10 @@ class WorldStore extends ReduceStore {
   }
 
   reduce(state, action) {
+    
     switch (action.type) {
       case 'NEW_WORLD':
-        return Immutable.Map({id: action.id, name: action.name});
+        return state.set('id', action.id).set('name', action.name);
 
       default:
         return state;
