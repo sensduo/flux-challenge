@@ -3,7 +3,7 @@ jest.dontMock('../../dispatcher/Dispatcher');
 jest.dontMock('immutable');
 
 const JediStore = require('../JediStore');
-const OrderedMap = require('immutable').OrderedMap;
+const List = require('immutable').List;
 const Dispatcher = require('../../dispatcher/Dispatcher');
 
 describe('Stores: JediStore', () => {
@@ -11,10 +11,14 @@ describe('Stores: JediStore', () => {
   const jediFromMars = {id: 2, name: 'testJediMars', homeworld: {id: 13, name:'mars'}};
   const jediFromTheMoon = {id: 1, name: 'testJedi', homeworld: {id: 10, name:'moon'}};
 
+  beforeEach(function() {
+    Dispatcher.dispatch({type: 'CLEAR'});
+  });
+
   describe('JediStore.getInitialState()', () => {
-    it('Should return an immutable OrderedMap', () => {
+    it('Should return an immutable List', () => {
       const state = JediStore.getInitialState();
-      expect(OrderedMap.isOrderedMap(state)).toEqual(true);
+      expect(List.isList(state)).toEqual(true);
     });
   });
 
@@ -22,15 +26,15 @@ describe('Stores: JediStore', () => {
     it('Should reflect dispatched changes in Jedis', () => {
       Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromEarth});
       const state = JediStore.getState();
-      expect(state.get(1)).toEqual(jediFromEarth);
+      expect(state.get(0)).toEqual(jediFromEarth);
     });
 
     it('When receiving new jedis, add them and keep old ones', () => {
       Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromEarth});
       Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromMars});
       const second_state = JediStore.getState();
-      expect(second_state.get(1)).toEqual(jediFromEarth);
-      expect(second_state.get(2)).toEqual(jediFromMars);
+      expect(second_state.get(0)).toEqual(jediFromEarth);
+      expect(second_state.get(1)).toEqual(jediFromMars);
     });
   });
 
@@ -39,12 +43,12 @@ describe('Stores: JediStore', () => {
       Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromEarth});
       Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromMars});
       const state = JediStore.getState();
-      expect(state.get(1)).toEqual(jediFromEarth);
-      expect(state.get(2)).toEqual(jediFromMars);
+      expect(state.get(0)).toEqual(jediFromEarth);
+      expect(state.get(1)).toEqual(jediFromMars);
       Dispatcher.dispatch({type: 'NEW_WORLD', id: 12, name: 'earth'});
       const second_state = JediStore.getState();
-      expect(second_state.get(1).onCurrentWorld).toEqual(true);
-      expect(second_state.get(2).onCurrentWorld).toEqual(false);
+      expect(second_state.get(0).onCurrentWorld).toEqual(true);
+      expect(second_state.get(1).onCurrentWorld).toEqual(false);
     });
   });
 
