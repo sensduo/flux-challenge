@@ -20,7 +20,7 @@ class JediContainer extends Component {
 
   render() {
     return (
-      <section class="css-scrollable-list">
+      <section className="css-scrollable-list">
         <JediList jedis={this.state.jedis}/>
         <JediScroll scrollable={this.state.scrollable}/>
       </section>
