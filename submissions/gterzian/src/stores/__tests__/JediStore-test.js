@@ -15,8 +15,8 @@ describe('Stores: JediStore', () => {
     });
   });
 
-  describe('JediStore.getState()', () => {
-    it('Should reflect dispacted changes in Jedis', () => {
+  describe('JediStore, update the list of jedis', () => {
+    it('Should reflect dispatched changes in Jedis', () => {
       Dispatcher.dispatch({type: 'NEW_JEDIS', jedis: [{id: 1, name: 'testJedi'}]});
       const state = JediStore.getState();
       expect(state.get(1)).toEqual({id: 1, name: 'testJedi'});
@@ -46,8 +46,7 @@ describe('Stores: JediStore', () => {
       const jediOnHomeWorld = {id: 1, name: 'testJedi', onCurrentWorld: true, homeworld: {id: 12, name:'earth'}}
       expect(second_state.get(1)).toEqual(jediOnHomeWorld);
       expect(second_state.get(2)).toEqual(jediFromMars);
-    })
-
-  })
+    });
+  });
 
 });
