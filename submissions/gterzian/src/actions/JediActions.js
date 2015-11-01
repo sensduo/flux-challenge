@@ -1,11 +1,14 @@
+var Dispatcher = require('../dispatcher/Dispatcher');
 
 module.exports = {
 
-  'newJedis': function(jedis) {
-    return {
-      'type': 'NEW_JEDIS',
-      'jedis': []
-    }
+  'newJedis': function(jedi) {
+    var action = {
+      'type': 'NEW_JEDI',
+      'jedi': jedi
+    };
+    Dispatcher.dispatch(action);
+    return action;
   },
 
   'scrollUp': function(currentId) {
