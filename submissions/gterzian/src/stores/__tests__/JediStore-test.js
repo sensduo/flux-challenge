@@ -101,6 +101,11 @@ describe('Stores: JediStore', () => {
       const state = JediStore.getState();
       expect(JediStore.firstHasMaster()).toEqual(false);
     });
+
+    it('Should return false for an empty state', () => {
+      const state = JediStore.getState();
+      expect(JediStore.firstHasMaster()).toEqual(false);
+    });
   });
 
   describe('JediStore: lastHasApprentice()', () => {
@@ -114,6 +119,11 @@ describe('Stores: JediStore', () => {
       Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromMars});
       const state = JediStore.getState();
       expect(JediStore.lastHasApprentice()).toEqual(false);
+    });
+
+    it('Should return false for an empty state', () => {
+      const state = JediStore.getState();
+      expect(JediStore.firstHasMaster()).toEqual(false);
     });
   })
 

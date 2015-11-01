@@ -59,6 +59,9 @@ class JediStore extends ReduceStore {
   }
 
   firstHasMaster() {
+    if (this.getState().isEmpty()) {
+      return false;
+    }
     if(this.getState().first().master) {
       return true;
     }
@@ -68,6 +71,9 @@ class JediStore extends ReduceStore {
   }
 
   lastHasApprentice() {
+    if (this.getState().isEmpty()) {
+      return false;
+    }
     if(this.getState().last().apprentice) {
       return true;
     }
