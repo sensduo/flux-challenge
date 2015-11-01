@@ -62,24 +62,26 @@ class JediStore extends ReduceStore {
     if (this.getState().isEmpty()) {
       return false;
     }
-    if(this.getState().first().master) {
-      return true;
+    let master = this.getState().first().master;
+    if (master) {
+      if (master.id) {
+        return true;
+      }
     }
-    else {
-      return false;
-    }
+    return false;
   }
 
   lastHasApprentice() {
     if (this.getState().isEmpty()) {
       return false;
     }
-    if(this.getState().last().apprentice) {
-      return true;
+    let apprentice = this.getState().last().apprentice;
+    if (apprentice) {
+      if (apprentice.id) {
+        return true;
+      }
     }
-    else {
-      return false;
-    }
+    return false;
   }
 
 }
