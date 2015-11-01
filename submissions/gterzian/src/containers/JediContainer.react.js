@@ -15,7 +15,7 @@ class JediContainer extends Component {
     const JediMap = JediStore.getState();
     return {
       jedis: JediMap.toList(),
-      scrollable: JediStore.hasJediAtHome(),
+      scrollable: !JediStore.hasJediAtHome(),
       first: JediMap.first(),
       last: JediMap.last()
     };
