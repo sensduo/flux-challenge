@@ -6,4 +6,4 @@ import WorldActions from './actions/WorldActions'
 
 React.render(<App/>, document.getElementById('app'));
 webApi.openWs();
-webApi.getJedi(3616);
+webApi.getJedi('http://localhost:3000/dark-jedis/3616');

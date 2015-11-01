@@ -11,8 +11,8 @@ module.exports = {
     }
   },
 
-  getJedi(id) {
-    $.getJSON(`http://localhost:3000/dark-jedis/${id}`).done(data => {
+  getJedi(url) {
+    $.getJSON(url).done(data => {
       JediActions.newJedi(data);
     })
   }
