@@ -101,6 +101,20 @@ describe('Stores: JediStore', () => {
       const state = JediStore.getState();
       expect(JediStore.firstHasMaster()).toEqual(false);
     });
+  });
+
+  describe('JediStore: lastHasApprentice()', () => {
+    it('Should return true if the last Jedi has an known apprentice', () => {
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromEarth});
+      const state = JediStore.getState();
+      expect(JediStore.lastHasApprentice()).toEqual(true);
+    });
+
+    it('Should return false if the last Jedi has no known apprentice', () => {
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromMars});
+      const state = JediStore.getState();
+      expect(JediStore.lastHasApprentice()).toEqual(false);
+    });
   })
 
 });
