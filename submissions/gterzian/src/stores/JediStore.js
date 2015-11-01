@@ -13,7 +13,6 @@ class JediStore extends ReduceStore {
     switch (action.type) {
 
       case 'NEW_JEDI':
-        console.log(action)
         const jedi = action.jedi;
         return state.set(jedi.id, jedi);
 
@@ -21,6 +20,9 @@ class JediStore extends ReduceStore {
         return state.map(jedi => {
           if (jedi.homeworld.id === action.id) {
             jedi.onCurrentWorld = true;
+          }
+          else {
+            jedi.onCurrentWorld = false;
           }
           return jedi;
         });

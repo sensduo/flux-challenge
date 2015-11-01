@@ -44,7 +44,7 @@ describe('Stores: JediStore', () => {
       Dispatcher.dispatch({type: 'NEW_WORLD', id: 12, name: 'earth'});
       const second_state = JediStore.getState();
       expect(second_state.get(1).onCurrentWorld).toEqual(true);
-      expect(second_state.get(2).onCurrentWorld).toEqual(undefined);
+      expect(second_state.get(2).onCurrentWorld).toEqual(false);
     });
   });
 
