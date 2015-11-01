@@ -6,3 +6,4 @@ import WorldActions from './actions/WorldActions'
 
 React.render(<App/>, document.getElementById('app'));
 webApi.openWs();
+webApi.getJedis();

@@ -12,13 +12,9 @@ class JediStore extends ReduceStore {
   reduce(state, action) {
     switch (action.type) {
 
-      case 'NEW_JEDIS':
-        return state.withMutations(new_state => {
-          action.jedis.forEach(jedi => {
-            new_state.set(jedi.id, jedi);
-          })
-          return new_state;
-        });
+      case 'NEW_JEDI':
+        const jedi = action.jedi;
+        return state.set(jedi.id, jedi);
 
       case 'NEW_WORLD':
         return state.map(jedi => {

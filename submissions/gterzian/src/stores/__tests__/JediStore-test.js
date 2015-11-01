@@ -20,45 +20,45 @@ describe('Stores: JediStore', () => {
 
   describe('JediStore: update the list of jedis', () => {
     it('Should reflect dispatched changes in Jedis', () => {
-      Dispatcher.dispatch({type: 'NEW_JEDIS', jedis: [{id: 1, name: 'testJedi'}]});
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromEarth});
       const state = JediStore.getState();
-      expect(state.get(1)).toEqual({id: 1, name: 'testJedi'});
+      expect(state.get(1)).toEqual(jediFromEarth);
     });
 
     it('When receiving new jedis, add them and keep old ones', () => {
-      Dispatcher.dispatch({type: 'NEW_JEDIS', jedis: [{id: 1, name: 'testJedi'}]});
-      const first_state = JediStore.getState();
-      expect(first_state.get(1)).toEqual({id: 1, name: 'testJedi'});
-      Dispatcher.dispatch({type: 'NEW_JEDIS', jedis: [{id: 2, name: 'test2Jedi'}]});
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromEarth});
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromMars});
       const second_state = JediStore.getState();
-      expect(second_state.get(2)).toEqual({id: 2, name: 'test2Jedi'});
-      expect(second_state.get(1)).toEqual({id: 1, name: 'testJedi'});
+      expect(second_state.get(1)).toEqual(jediFromEarth);
+      expect(second_state.get(2)).toEqual(jediFromMars);
     });
   });
 
   describe('JediStore: change of world', () => {
     it('Should check all Jedi against the current world', () => {
-      Dispatcher.dispatch({type: 'NEW_JEDIS', jedis: [jediFromEarth, jediFromMars]});
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromEarth});
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromMars});
       const state = JediStore.getState();
       expect(state.get(1)).toEqual(jediFromEarth);
       expect(state.get(2)).toEqual(jediFromMars);
       Dispatcher.dispatch({type: 'NEW_WORLD', id: 12, name: 'earth'});
       const second_state = JediStore.getState();
-      const jediOnHomeWorld = {id: 1, name: 'testJedi', onCurrentWorld: true, homeworld: {id: 12, name:'earth'}}
-      expect(second_state.get(1)).toEqual(jediOnHomeWorld);
-      expect(second_state.get(2)).toEqual(jediFromMars);
+      expect(second_state.get(1).onCurrentWorld).toEqual(true);
+      expect(second_state.get(2).onCurrentWorld).toEqual(undefined);
     });
   });
 
   describe('JediStore: hasJediAtHome()', () => {
     it('Should return true if any Jedi is at home in the current world', () => {
-      Dispatcher.dispatch({type: 'NEW_JEDIS', jedis: [jediFromEarth, jediFromMars]});
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromEarth});
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromMars});
       Dispatcher.dispatch({type: 'NEW_WORLD', id: 12, name: 'earth'});
       expect(JediStore.hasJediAtHome()).toEqual(true);
     });
 
     it('Should return false when none of the Jedi are at home in the current world', () => {
-      Dispatcher.dispatch({type: 'NEW_JEDIS', jedis: [jediFromTheMoon, jediFromMars]});
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromTheMoon});
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromMars});
       Dispatcher.dispatch({type: 'NEW_WORLD', id: 12, name: 'earth'});
       expect(JediStore.hasJediAtHome()).toEqual(false);
     });
