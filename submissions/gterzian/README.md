@@ -6,7 +6,9 @@
 If we focus on the ability for others to quickly jump in, understand and contribute to a codebase, these are matters that can be important
 
 - Test coverage
-- Use of standard tools
+- Use of standard tool
+- Clear project structure
+- A lack of complicated stuff going on
 
 Assuming this, I've focused on covering core logic with tests, using [Jest](http://facebook.github.io/jest/), and I used standard flux libraries such as the Facebook Dispatcher, Container and Store classes found in [flux utils](http://facebook.github.io/flux/docs/flux-utils.html) as well as immutable data structures found in [Immutable](http://facebook.github.io/immutable-js/).
 
