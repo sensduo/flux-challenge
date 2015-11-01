@@ -13,6 +13,7 @@ class JediStore extends ReduceStore {
     switch (action.type) {
 
       case 'NEW_JEDI':
+        console.log(action)
         const jedi = action.jedi;
         return state.set(jedi.id, jedi);
 
