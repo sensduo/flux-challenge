@@ -16,6 +16,8 @@ class JediContainer extends Component {
     return {
       jedis: JediMap.toList(),
       scrollable: !JediStore.hasJediAtHome(),
+      canUp: JediStore.firstHasMaster(),
+      canDown: JediStore.lastHasApprentice(),
       first: JediMap.first(),
       last: JediMap.last()
     };

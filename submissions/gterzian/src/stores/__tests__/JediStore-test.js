@@ -7,9 +7,9 @@ const List = require('immutable').List;
 const Dispatcher = require('../../dispatcher/Dispatcher');
 
 describe('Stores: JediStore', () => {
-  const jediFromEarth = {id: 1, name: 'testJedi', homeworld: {id: 12, name:'earth'}};
-  const jediFromMars = {id: 2, name: 'testJediMars', homeworld: {id: 13, name:'mars'}};
-  const jediFromTheMoon = {id: 1, name: 'testJedi', homeworld: {id: 10, name:'moon'}};
+  const jediFromEarth = {id: 1, name: 'testJediEarth', homeworld: {id: 12, name:'earth'}, master: {id: 3}};
+  const jediFromMars = {id: 2, name: 'testJediMars', homeworld: {id: 13, name:'mars'}, master: {id: 1}};
+  const jediFromTheMoon = {id: 3, name: 'testJediMoon', homeworld: {id: 10, name:'moon'}, apprentice: {id: 1}, master: {id: 10}};
 
   beforeEach(function() {
     Dispatcher.dispatch({type: 'CLEAR'});
@@ -36,6 +36,27 @@ describe('Stores: JediStore', () => {
       expect(second_state.get(0)).toEqual(jediFromEarth);
       expect(second_state.get(1)).toEqual(jediFromMars);
     });
+
+    it('Should ignore actions for Jedis already in there', () => {
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromEarth});
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromEarth});
+      const second_state = JediStore.getState();
+      expect(second_state.get(0)).toEqual(jediFromEarth);
+      expect(second_state.get(1)).toEqual(undefined);
+    })
+
+    it('Should push apprentices into the list, unshift masters', () => {
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromEarth});
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromMars});
+      const second_state = JediStore.getState();
+      expect(second_state.get(0)).toEqual(jediFromEarth);
+      expect(second_state.get(1)).toEqual(jediFromMars);
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromTheMoon});
+      const third_state = JediStore.getState();
+      expect(third_state.get(0)).toEqual(jediFromTheMoon);
+      expect(third_state.get(1)).toEqual(jediFromEarth);
+      expect(third_state.get(2)).toEqual(jediFromMars);
+    })
   });
 
   describe('JediStore: change of world', () => {
