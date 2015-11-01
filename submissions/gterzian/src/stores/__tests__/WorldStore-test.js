@@ -10,7 +10,7 @@ describe('Stores: WorldStore', () => {
 
   describe('WorlStore.getInitialState()', () => {
     it('Should return an immutable Map with an id and name', () => {
-      var state = WorldStore.getInitialState();
+      const state = WorldStore.getInitialState();
       expect(state.get("id")).toEqual("");
       expect(state.get("name")).toEqual("");
       expect(Map.isMap(state)).toEqual(true);
@@ -19,7 +19,7 @@ describe('Stores: WorldStore', () => {
 
   describe('WorldStore.reduce', () => {
     it('Should reduce the sate when receiving world actions', () => {
-      var state = WorldStore.reduce(WorldStore.getInitialState(), {type: 'NEW_WORLD', id: 123, name: 'earth'});
+      const state = WorldStore.reduce(WorldStore.getInitialState(), {type: 'NEW_WORLD', id: 123, name: 'earth'});
       //console.log(state)
       expect(state.get("id")).toEqual(123);
       expect(state.get("name")).toEqual("earth");
@@ -29,10 +29,13 @@ describe('Stores: WorldStore', () => {
 
   describe('WorldStore.getState()', () => {
     it('Should reflect dispacted changes in world', () => {
+      const oldState = WorldStore.getState();
+      expect(oldState.get("id")).toEqual("");
+      expect(oldState.get("name")).toEqual("");
       Dispatcher.dispatch({type: 'NEW_WORLD', id: 123, name: 'earth'});
-      var state = WorldStore.getState();
-      expect(state.get("id")).toEqual(123);
-      expect(state.get("name")).toEqual("earth");
+      const newState = WorldStore.getState();
+      expect(newState.get("id")).toEqual(123);
+      expect(newState.get("name")).toEqual("earth");
     });
   });
 
