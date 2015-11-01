@@ -13,7 +13,7 @@ class JediStore extends ReduceStore {
     switch (action.type) {
 
       case 'NEW_JEDIS':
-        return state.clear().withMutations(new_state => {
+        return state.withMutations(new_state => {
           action.jedis.forEach(jedi => {
             new_state.set(jedi.id, jedi);
           })
