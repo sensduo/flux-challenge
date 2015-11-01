@@ -32,6 +32,11 @@ class JediStore extends ReduceStore {
         return state;
     }
   }
+
+  hasJediAtHome() {
+    return this.getState().some(jedi => jedi.onCurrentWorld);
+  }
+
 }
 
 module.exports = new JediStore(Dispatcher);
