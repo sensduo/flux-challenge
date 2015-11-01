@@ -12,11 +12,11 @@ export default class JediScroll extends Component {
     const _scrollDown = () => {
       webApi.getJedi(props.last.apprentice.url);
     };
-    if(props.scrollable) {
+    if(!props.scrollable) {
       return (
         <div className="css-scroll-buttons">
-          <button className="css-button-up" onClick={_scrollUp}/>
-          <button className="css-button-down" onClick={_scrollDown}/>
+          <button className="css-button-up css-button-disabled" />
+          <button className="css-button-down css-button-disabled" />
         </div>
       );
     }
@@ -30,24 +30,31 @@ export default class JediScroll extends Component {
         );
       }
       else {
-        if (!props.canDown) {
+        if (props.canDown && !props.canUp) {
           return (
             <div className="css-scroll-buttons">
-              <button className="css-button-up" />
-              <button className="css-button-down css-button-disabled" />
+              <button className="css-button-up css-button-disabled" />
+              <button className="css-button-down" onClick={_scrollDown}/>
             </div>
           );
         }
         else {
-          return (
-            <div className="css-scroll-buttons">
-              <button className="css-button-up css-button-disabled" />
-              <button className="css-button-down" />
-            </div>
-          );
+          if (!props.canDown && props.canUp) {
+            return (
+              <div className="css-scroll-buttons">
+              <button className="css-button-up " onClick={_scrollUp}/>
+              <button className="css-button-down css-button-disabled" />
+              </div>
+            );
+          }
         }
       }
-
+       return (
+         <div className="css-scroll-buttons">
+           <button className="css-button-up " onClick={_scrollUp}/>
+           <button className="css-button-down" onClick={_scrollDown}/>
+         </div>
+       );
     }
   }
 
