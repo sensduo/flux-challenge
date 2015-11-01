@@ -25,6 +25,7 @@ class JediStore extends ReduceStore {
           if (jedi.homeworld.id === action.id) {
             jedi.onCurrentWorld = true;
           }
+          return jedi;
         });
 
       default:
