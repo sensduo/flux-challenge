@@ -4,6 +4,7 @@ import webApi from '../utils/web-api';
 export default class JediScroll extends Component {
 
   render() {
+    console.log(this.props)
     const props = this.props;
     const _scrollUp = () => {
       webApi.getJedi(props.first.master.url);
@@ -20,7 +21,7 @@ export default class JediScroll extends Component {
       );
     }
     else {
-      if (props.canUp && props.canDown) {
+      if (!props.canUp && !props.canDown) {
         return (
           <div className="css-scroll-buttons">
             <button className="css-button-up css-button-disabled" />
@@ -29,7 +30,7 @@ export default class JediScroll extends Component {
         );
       }
       else {
-        if (props.canUp) {
+        if (!props.canDown) {
           return (
             <div className="css-scroll-buttons">
               <button className="css-button-up" />
