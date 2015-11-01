@@ -6,10 +6,10 @@ export default class JediScroll extends Component {
   render() {
     const props = this.props;
     const _scrollUp = () => {
-      webApi.getJedi(props.first.master.url);
+      webApi.getMaster(props.first.master.url);
     };
     const _scrollDown = () => {
-      webApi.getJedi(props.last.apprentice.url);
+      webApi.getApprentice(props.last.apprentice.url);
     };
     if(props.scrollable) {
       return (

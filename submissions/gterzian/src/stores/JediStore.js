@@ -6,15 +6,18 @@ import Dispatcher from '../dispatcher/Dispatcher';
 
 class JediStore extends ReduceStore {
   getInitialState() {
-    return Immutable.OrderedMap();
+    return Immutable.List();
   }
 
   reduce(state, action) {
     switch (action.type) {
 
+      case 'CLEAR':
+        return state.clear();
+
       case 'NEW_JEDI':
         const jedi = action.jedi;
-        return state.set(jedi.id, jedi);
+        return state.push(jedi);
 
       case 'NEW_WORLD':
         return state.map(jedi => {
