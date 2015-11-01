@@ -1,16 +1,23 @@
 
 module.exports = {
 
+  'newJedis': function(jedis) {
+    return {
+      'type': 'NEW_JEDIS',
+      'jedis': []
+    }
+  },
+
   'scrollUp': function(currentId) {
     return {
-      'Type': 'SCROLL_UP',
+      'type': 'SCROLL_UP',
       'from': currentId
     };
   },
 
   'scrollDown': function(currentId) {
     return {
-      'Type': 'SCROLL_DOWN',
+      'type': 'SCROLL_DOWN',
       'from': currentId
     };
   }

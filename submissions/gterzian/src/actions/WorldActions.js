@@ -1,8 +1,9 @@
 module.exports = {
-  'newWorld': function(worldId) {
+  'newWorld': function(worldId, worldName) {
     return {
-      'Type': 'NEW_WORLD',
-      'worldId': worldId
+      'type': 'NEW_WORLD',
+      'id': worldId,
+      'name': worldName
     };
   }
 };
