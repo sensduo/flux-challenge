@@ -67,6 +67,15 @@ class JediStore extends ReduceStore {
     }
   }
 
+  lastHasApprentice() {
+    if(this.getState().last().apprentice) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
 }
 
 module.exports = new JediStore(Dispatcher);
