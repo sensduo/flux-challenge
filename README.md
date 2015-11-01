@@ -101,4 +101,5 @@ This challenge is meant to be solved with Flux or some variation of this archite
 
 ###How to run your submission's test on Travis
 
-Add your submissions's directory to another entry under `env` in `.travis.yml`, looking like `TEST_DIR=submissions/<your_dir>/`
+Add your submissions's directory to another `TEST_DIR` entry under `env` in `.travis.yml`, looking like `TEST_DIR=submissions/<your_dir>/`.
+Credits for this go to [Robert Lord](https://lord.io/blog/2014/travis-multiple-subdirs/)
