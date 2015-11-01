@@ -22,15 +22,14 @@
     "jest-cli": "^0.4.3",
     "reactify": "^0.15.2",
     "uglify-js": "~2.4.15",
-    "watchify": "^2.1.1",
-    "webpack": "^1.12.2"
+    "watchify": "^2.1.1"
   },
   "scripts": {
     "start": "watchify -o dist/index.js  -v -d src/index.js",
     "build": "browserify . -t [envify --NODE_ENV production] -t [babelify --stage 0] | uglifyjs -cm > dist/index.js",
     "test": "jest"
   },
-  "author": "Kyle Davis",
+  "author": "Gregory Terzian",
   "browserify": {
     "transform": [
       [
