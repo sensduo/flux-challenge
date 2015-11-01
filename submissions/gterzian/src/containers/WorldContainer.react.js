@@ -12,13 +12,13 @@ class WorldContainer extends Component {
 
   static calculateState(prevState) {
     return {
-      world: WorldStore.getState(),
+      world: WorldStore.getState().get('name'),
     };
   }
 
   render() {
     return (
-      <CurrentWorld world={this.state.world.name}/>
+      <CurrentWorld world={this.state.world}/>
     );
   }
 };

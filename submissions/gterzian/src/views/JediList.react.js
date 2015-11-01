@@ -6,9 +6,10 @@ export default class JediList extends Component {
 
   render() {
     const jedis = this.props.jedis;
-    const jediItems = jedis.map(jedi => {
-      return <JediItem name={jedi.name} homeworld={jedi.homeworld.name} />;
-    })
+    let jediItems = [];
+    for (let jedi of jedis) {
+      jediItems.push(<JediItem key={jedi.name} name={jedi.name} homeworld={jedi.homeworld.name} isHome={jedi.onCurrentWorld}/>);
+    }
     return (
       <ul className="css-slots">
         {jediItems}

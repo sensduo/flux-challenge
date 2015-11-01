@@ -12,9 +12,14 @@ class JediContainer extends Component {
   }
 
   static calculateState(prevState) {
+    const JediMap = JediStore.getState();
     return {
-      jedis: JediStore.getState(),
-      scrollable: JediStore.hasJediAtHome()
+      jedis: JediMap.toList(),
+      scrollable: !JediStore.hasJediAtHome(),
+      canUp: JediStore.firstHasMaster(),
+      canDown: JediStore.lastHasApprentice(),
+      first: JediMap.first(),
+      last: JediMap.last()
     };
   }
 
@@ -22,7 +27,10 @@ class JediContainer extends Component {
     return (
       <section className="css-scrollable-list">
         <JediList jedis={this.state.jedis}/>
-        <JediScroll scrollable={this.state.scrollable}/>
+        <JediScroll scrollable={this.state.scrollable} first={this.state.first}
+          last={this.state.last}
+          canUp={this.state.canUp}
+          canDown={this.state.canDown}/>
       </section>
     );
   }
