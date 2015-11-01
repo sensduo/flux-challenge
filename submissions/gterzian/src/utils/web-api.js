@@ -13,9 +13,8 @@ module.exports = {
 
   getJedis() {
     $.getJSON('http://localhost:3000/dark-jedis/').done(data => {
-      console.log(data)
-      JediActions.newJedis(data);
-      })
+      JediActions.newJedi(data);
+    })
   }
 
 };

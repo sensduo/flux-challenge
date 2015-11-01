@@ -13,7 +13,7 @@ class JediContainer extends Component {
 
   static calculateState(prevState) {
     return {
-      jedis: JediStore.getState(),
+      jedis: JediStore.getState().toList(),
       scrollable: JediStore.hasJediAtHome()
     };
   }
