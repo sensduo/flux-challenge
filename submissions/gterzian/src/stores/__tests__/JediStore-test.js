@@ -25,14 +25,14 @@ describe('Stores: JediStore', () => {
       expect(state.get(1)).toEqual({id: 1, name: 'testJedi'});
     });
 
-    it('Should remove Jedis not in the latest action', () => {
+    it('When receiving new jedis, add them and keep old ones', () => {
       Dispatcher.dispatch({type: 'NEW_JEDIS', jedis: [{id: 1, name: 'testJedi'}]});
       const first_state = JediStore.getState();
       expect(first_state.get(1)).toEqual({id: 1, name: 'testJedi'});
       Dispatcher.dispatch({type: 'NEW_JEDIS', jedis: [{id: 2, name: 'test2Jedi'}]});
       const second_state = JediStore.getState();
       expect(second_state.get(2)).toEqual({id: 2, name: 'test2Jedi'});
-      expect(second_state.get(1)).toEqual(undefined);
+      expect(second_state.get(1)).toEqual({id: 1, name: 'testJedi'});
     });
   });
 
