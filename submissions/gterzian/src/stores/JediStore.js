@@ -17,7 +17,26 @@ class JediStore extends ReduceStore {
 
       case 'NEW_JEDI':
         const jedi = action.jedi;
-        return state.push(jedi);
+        if (state.isEmpty()) {
+          return state.push(jedi);
+        }
+        const containsJedi = state.find((existing) => {
+          return existing.id === jedi.id;
+        });
+        if (!containsJedi) {
+          if(state.first().master.id === jedi.id) {
+            //put masters on top
+            return state.unshift(jedi);
+          }
+          else {
+            return state.push(jedi);
+          }
+        }
+        else {
+          //don't update if the Jedi is already in there
+          return state;
+        }
+
 
       case 'NEW_WORLD':
         return state.map(jedi => {
