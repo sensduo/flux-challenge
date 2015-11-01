@@ -7,9 +7,48 @@ const List = require('immutable').List;
 const Dispatcher = require('../../dispatcher/Dispatcher');
 
 describe('Stores: JediStore', () => {
-  const jediFromEarth = {id: 1, name: 'testJediEarth', homeworld: {id: 12, name:'earth'}, master: {id: 3}, apprentice: {id:1}};
-  const jediFromMars = {id: 2, name: 'testJediMars', homeworld: {id: 13, name:'mars'}, master: {id: 1}, apprentice: {id: null}};
-  const jediFromTheMoon = {id: 3, name: 'testJediMoon', homeworld: {id: 10, name:'moon'}, apprentice: {id: 1}, master: {id: null}};
+  const jediFromEarth = {
+    id: 1,
+    name: 'testJediEarth',
+    homeworld: {
+      id: 12,
+      name:'earth'
+    },
+    master: {
+      id: 3
+    },
+    apprentice: {
+      id:1
+    }
+  };
+  const jediFromMars = {
+    id: 2,
+    name: 'testJediMars',
+    homeworld: {
+      id: 13,
+      name:'mars'
+    },
+    master: {
+      id: 1
+    },
+    apprentice: {
+      id: null
+    }
+  };
+  const jediFromTheMoon = {
+    id: 3,
+    name: 'testJediMoon',
+    homeworld: {
+      id: 10,
+      name:'moon'
+    },
+    apprentice: {
+      id: 1
+    },
+    master: {
+      id: null
+    }
+  };
 
   beforeEach(function() {
     Dispatcher.dispatch({type: 'CLEAR'});

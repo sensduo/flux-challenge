@@ -9,20 +9,6 @@ module.exports = {
     };
     Dispatcher.dispatch(action);
     return action;
-  },
-
-  'scrollUp': function(currentId) {
-    return {
-      'type': 'SCROLL_UP',
-      'from': currentId
-    };
-  },
-
-  'scrollDown': function(currentId) {
-    return {
-      'type': 'SCROLL_DOWN',
-      'from': currentId
-    };
   }
-
+  
 };
