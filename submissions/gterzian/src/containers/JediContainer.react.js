@@ -28,7 +28,9 @@ class JediContainer extends Component {
       <section className="css-scrollable-list">
         <JediList jedis={this.state.jedis}/>
         <JediScroll scrollable={this.state.scrollable} first={this.state.first}
-          last={this.state.last}/>
+          last={this.state.last}
+          canUp={this.state.canUp}
+          canDown={this.state.canDown}/>
       </section>
     );
   }

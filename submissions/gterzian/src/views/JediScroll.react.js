@@ -20,12 +20,33 @@ export default class JediScroll extends Component {
       );
     }
     else {
-      return (
-        <div className="css-scroll-buttons">
-          <button className="css-button-up css-button-disabled" />
-          <button className="css-button-down css-button-disabled" />
-        </div>
-      );
+      if (props.canUp && props.canDown) {
+        return (
+          <div className="css-scroll-buttons">
+            <button className="css-button-up css-button-disabled" />
+            <button className="css-button-down css-button-disabled" />
+          </div>
+        );
+      }
+      else {
+        if (props.canUp) {
+          return (
+            <div className="css-scroll-buttons">
+              <button className="css-button-up" />
+              <button className="css-button-down css-button-disabled" />
+            </div>
+          );
+        }
+        else {
+          return (
+            <div className="css-scroll-buttons">
+              <button className="css-button-up css-button-disabled" />
+              <button className="css-button-down" />
+            </div>
+          );
+        }
+      }
+
     }
   }
 
