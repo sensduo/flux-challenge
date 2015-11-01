@@ -1,13 +1,9 @@
 jest.dontMock('../web-api')
 
-const WORLDS = require('../web-api');
+const webApi = require('../web-api');
 
-describe('Worlds', () => {
-  it('Should return the list of worlds', () => {
-    expect(WORLDS[0]).toEqual({
-      id: 8,
-      name: 'Cato Neimoidia'
-    });
-  })
-
-})
+describe('webApi', () => {
+  it('Should be an object', () => {
+    expect(webApi).toBeDefined();;
+  });
+});
