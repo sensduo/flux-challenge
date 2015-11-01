@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import JediItem from '../views/JediItem';
+import JediItem from '../views/JediItem.react.js';
 
 export default class JediList extends Component {
 
@@ -12,7 +12,7 @@ export default class JediList extends Component {
     return (
       <ul class="css-slots">
         {jediItems}
-      </ul>;
+      </ul>
     );
   }
 };

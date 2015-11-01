@@ -2,8 +2,8 @@ import {Container} from 'flux/utils';
 import React, {Component} from 'react';
 
 import JediStore from '../stores/JediStore';
-import JediList from '../views/JediList';
-import JediScroll from '../views/JediScroll';
+import JediList from '../views/JediList.react.js';
+import JediScroll from '../views/JediScroll.react.js';
 
 
 class JediContainer extends Component {
@@ -14,7 +14,7 @@ class JediContainer extends Component {
   static calculateState(prevState) {
     return {
       jedis: JediStore.getState(),
-      scrollable: JediStore.hasJediAtHome();
+      scrollable: JediStore.hasJediAtHome()
     };
   }
 
@@ -23,7 +23,7 @@ class JediContainer extends Component {
       <section class="css-scrollable-list">
         <JediList jedis={this.state.jedis}/>
         <JediScroll scrollable={this.state.scrollable}/>
-      </section>;
+      </section>
     );
   }
 };
