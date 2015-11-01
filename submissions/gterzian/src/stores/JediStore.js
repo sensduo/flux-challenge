@@ -24,8 +24,8 @@ class JediStore extends ReduceStore {
           return existing.id === jedi.id;
         });
         if (!containsJedi) {
-          if(state.first().master.id === jedi.id) {
-            //put masters on top
+          const master = state.first().master;
+          if (master && (master.id === jedi.id)) {
             return state.unshift(jedi);
           }
           else {
@@ -56,6 +56,15 @@ class JediStore extends ReduceStore {
 
   hasJediAtHome() {
     return this.getState().some(jedi => jedi.onCurrentWorld);
+  }
+
+  firstHasMaster() {
+    if(this.getState().first().master) {
+      return true;
+    }
+    else {
+      return false;
+    }
   }
 
 }
