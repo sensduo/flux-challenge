@@ -6,7 +6,7 @@ describe('Actions: JediActions', () => {
   describe('JediActions.scrollUp', () => {
     it('Should return an Action of type SCROLL_UP', () => {
       var scrollUpAction = JediActions.scrollUp();
-      expect(scrollUpAction.Type).toEqual('SCROLL_UP');
+      expect(scrollUpAction.type).toEqual('SCROLL_UP');
     });
 
     it('Should return an Action with the id passed to it under "from"', () => {
@@ -18,7 +18,7 @@ describe('Actions: JediActions', () => {
   describe('JediActions.scrollDown', () => {
     it('Should return an Action of type SCROLL_DOWN', () => {
       var scrollDownAction = JediActions.scrollDown();
-      expect(scrollDownAction.Type).toEqual('SCROLL_DOWN');
+      expect(scrollDownAction.type).toEqual('SCROLL_DOWN');
     });
 
     it('Should return an Action with the id passed to it under "from"', () => {
