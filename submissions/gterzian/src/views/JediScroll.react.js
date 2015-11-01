@@ -4,7 +4,6 @@ import webApi from '../utils/web-api';
 export default class JediScroll extends Component {
 
   render() {
-    console.log(this.props)
     const props = this.props;
     const _scrollUp = () => {
       webApi.getJedi(props.first.master.url);
