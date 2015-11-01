@@ -1,6 +1,7 @@
 
 import React from 'react';
 import JediContainer from '../containers/JediContainer.react.js'
+import WorldContainer from '../containers/WorldContainer.react.js'
 
 export default class App extends React.Component {
 
@@ -8,7 +9,7 @@ export default class App extends React.Component {
     return (
       <div className="app-container">
         <div className="css-root">
-          <h1 className="css-planet-monitor">Obi-Wan currently on Tatooine</h1>
+          <WorldContainer />
           <JediContainer />
         </div>
       </div>
