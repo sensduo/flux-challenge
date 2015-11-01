@@ -10,7 +10,7 @@ export default class JediList extends Component {
       return <JediItem name={jedi.name} homeworld={jedi.homeworld.name} />;
     })
     return (
-      <ul class="css-slots">
+      <ul className="css-slots">
         {jediItems}
       </ul>
     );

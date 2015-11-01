@@ -4,9 +4,9 @@ export default class JediScroll extends Component {
 
   render() {
     return (
-      <div class="css-scroll-buttons">
-        <button class="css-button-up"></button>
-        <button class="css-button-down"></button>
+      <div className="css-scroll-buttons">
+        <button className="css-button-up"></button>
+        <button className="css-button-down"></button>
       </div>
     );
   }

@@ -6,9 +6,9 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <div class="app-container">
-        <div class="css-root">
-          <h1 class="css-planet-monitor">Obi-Wan currently on Tatooine</h1>
+      <div className="app-container">
+        <div className="css-root">
+          <h1 className="css-planet-monitor">Obi-Wan currently on Tatooine</h1>
           <JediContainer />
         </div>
       </div>
