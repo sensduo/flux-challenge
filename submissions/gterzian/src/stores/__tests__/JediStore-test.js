@@ -50,6 +50,34 @@ describe('Stores: JediStore', () => {
       id: null
     }
   };
+  const jediFromNeptune = {
+    id: 4,
+    name: 'jediFromNeptune',
+    homeworld: {
+      id: 4,
+      name:'Neptune'
+    },
+    apprentice: {
+      id: 1
+    },
+    master: {
+      id: null
+    }
+  };
+  const jediFromPluto = {
+    id: 5,
+    name: 'jediFromPluto',
+    homeworld: {
+      id: 3,
+      name:'Pluto'
+    },
+    apprentice: {
+      id: 1
+    },
+    master: {
+      id: null
+    }
+  };
 
   beforeEach(function() {
     Dispatcher.dispatch({type: 'CLEAR'});
@@ -98,6 +126,41 @@ describe('Stores: JediStore', () => {
       expect(third_state.get(2)).toEqual(jediFromMars);
     })
   });
+
+  describe('JediStore: receiving SEEK_MASTERS action', () => {
+    it('Should remove first two, and move the rest down two notch', () => {
+      //note these will be reshuffled based on master/apprentice
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromEarth});
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromMars});
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromNeptune});
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromPluto});
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromTheMoon});
+      Dispatcher.dispatch({type: 'SEEK_MASTERS'});
+      const state = JediStore.getState();
+      expect(state.get(0)).toEqual(undefined);
+      expect(state.get(1)).toEqual(undefined);
+      expect(state.get(2)).toEqual(jediFromTheMoon);
+      expect(state.get(3)).toEqual(jediFromEarth);
+      expect(state.get(4)).toEqual(jediFromMars);
+    });
+  });
+
+  describe('JediStore: receiving SEEK_APPRENTICES action', () => {
+    it('Should last two apprentices, and move the up two notch', () => {
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromEarth});
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromMars});
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromNeptune});
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromPluto});
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromTheMoon});
+      Dispatcher.dispatch({type: 'SEEK_APPRENTICES'});
+      const state = JediStore.getState();
+      expect(state.get(0)).toEqual(jediFromMars);
+      expect(state.get(1)).toEqual(jediFromNeptune);
+      expect(state.get(2)).toEqual(jediFromPluto);
+      expect(state.get(3)).toEqual(undefined);
+      expect(state.get(4)).toEqual(undefined);
+    })
+  })
 
   describe('JediStore: change of world', () => {
     it('Should check all Jedi against the current world', () => {

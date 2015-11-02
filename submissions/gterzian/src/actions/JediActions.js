@@ -2,13 +2,31 @@ var Dispatcher = require('../dispatcher/Dispatcher');
 
 module.exports = {
 
-  'newJedi': function(jedi) {
+  newJedi(jedi) {
     var action = {
       'type': 'NEW_JEDI',
       'jedi': jedi
     };
     Dispatcher.dispatch(action);
     return action;
+  },
+
+  seekMasters() {
+    var action = {
+      'type': 'SEEK_MASTERS',
+      'jedi': jedi
+    };
+    Dispatcher.dispatch(action);
+    return action;
+  },
+
+  seekApprentices() {
+    var action = {
+      'type': 'SEEK_APPRENTICES',
+      'jedi': jedi
+    };
+    Dispatcher.dispatch(action);
+    return action;
   }
-  
+
 };
