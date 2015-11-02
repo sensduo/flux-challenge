@@ -14,7 +14,9 @@ Assuming this, I've focused on covering core logic with tests, using [Jest](http
 
 I'm sure there are lots of other great flux tools and frameworks out there, and perhaps using ligthweight libraries can help people quickly jump in, especially when the community is still young and there is no de-facto standard framework.
 
-Besides this I've tried to keep things modular and as simple as possible, favoring the use of well-documented higher-order methods on Immutable data structures while avoiding manual looping constructs. I also think keeping things in separate files and folders is useful.
+Besides this I've tried to keep things modular and as simple as possible, favoring the use of well-documented higher-order methods on Immutable data structures while avoiding manual looping constructs.
+
+I also think keeping things in separate files and folders is useful.
 
 - Run the tests: `npm test`
 - Build the project: `npm start`
