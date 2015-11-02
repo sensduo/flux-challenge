@@ -1,4 +1,5 @@
 jest.dontMock('../JediStore');
+jest.dontMock('../WorldStore');
 jest.dontMock('../../dispatcher/Dispatcher');
 jest.dontMock('immutable');
 
@@ -7,6 +8,34 @@ const List = require('immutable').List;
 const Dispatcher = require('../../dispatcher/Dispatcher');
 
 describe('Stores: JediStore', () => {
+  const emptyJedi1 = {
+    id: '0',
+    name: 'empty1',
+    homeworld: {
+      id: '',
+      name:''
+    },
+    master: {
+      id: 1
+    },
+    apprentice: {
+      id: 1
+    }
+  };
+  const emptyJedi2 = {
+    id: '1',
+    name: 'empty2',
+    homeworld: {
+      id: '',
+      name:''
+    },
+    master: {
+      id: 1
+    },
+    apprentice: {
+      id: 1
+    }
+  };
   const jediFromEarth = {
     id: 1,
     name: 'testJediEarth',
@@ -49,6 +78,34 @@ describe('Stores: JediStore', () => {
       id: null
     }
   };
+  const jediFromNeptune = {
+    id: 4,
+    name: 'jediFromNeptune',
+    homeworld: {
+      id: 4,
+      name:'Neptune'
+    },
+    apprentice: {
+      id: 1
+    },
+    master: {
+      id: null
+    }
+  };
+  const jediFromPluto = {
+    id: 5,
+    name: 'jediFromPluto',
+    homeworld: {
+      id: 3,
+      name:'Pluto'
+    },
+    apprentice: {
+      id: 1
+    },
+    master: {
+      id: null
+    }
+  };
 
   beforeEach(function() {
     Dispatcher.dispatch({type: 'CLEAR'});
@@ -82,7 +139,18 @@ describe('Stores: JediStore', () => {
       const second_state = JediStore.getState();
       expect(second_state.get(0)).toEqual(jediFromEarth);
       expect(second_state.get(1)).toEqual(undefined);
-    })
+    });
+
+    it('Should also work with undefined jedis', () => {
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromEarth});
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromMars});
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromNeptune});
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromPluto});
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromTheMoon});
+      Dispatcher.dispatch({type: 'SEEK_APPRENTICES'});
+      //this would previously throw an error due to undefined being in the list
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromEarth});
+    });
 
     it('Should push apprentices into the list, unshift masters', () => {
       Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromEarth});
@@ -96,6 +164,80 @@ describe('Stores: JediStore', () => {
       expect(third_state.get(1)).toEqual(jediFromEarth);
       expect(third_state.get(2)).toEqual(jediFromMars);
     })
+  });
+
+  describe('JediStore: receiving SEEK_MASTERS action', () => {
+    it('Should remove first two, and move the rest down two notch', () => {
+      //note these will be reshuffled based on master/apprentice
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromEarth});
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromMars});
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromNeptune});
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromPluto});
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromTheMoon});
+      Dispatcher.dispatch({type: 'SEEK_MASTERS'});
+      const state = JediStore.getState();
+      expect(state.get(0)).toEqual(emptyJedi1);
+      expect(state.get(1)).toEqual(emptyJedi2);
+      expect(state.get(2)).toEqual(jediFromTheMoon);
+      expect(state.get(3)).toEqual(jediFromEarth);
+      expect(state.get(4)).toEqual(jediFromMars);
+    });
+
+    it('Should remove the empty ones on top when the first jedi comes in', () => {
+      //note these will be reshuffled based on master/apprentice
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromEarth});
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromMars});
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromNeptune});
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromPluto});
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromTheMoon});
+      Dispatcher.dispatch({type: 'SEEK_MASTERS'});
+      const state = JediStore.getState();
+      expect(state.get(0)).toEqual(emptyJedi1);
+      expect(state.get(1)).toEqual(emptyJedi2);
+      expect(state.get(2)).toEqual(jediFromTheMoon);
+      expect(state.get(3)).toEqual(jediFromEarth);
+      expect(state.get(4)).toEqual(jediFromMars);
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromNeptune});
+      const state2 = JediStore.getState();
+      expect(state2.get(0)).toEqual(jediFromNeptune);
+      expect(state2.get(1)).toEqual(jediFromTheMoon);
+    });
+  });
+
+  describe('JediStore: receiving SEEK_APPRENTICES action', () => {
+    it('Should remove last two apprentices, and move the up two notch', () => {
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromEarth});
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromMars});
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromNeptune});
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromPluto});
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromTheMoon});
+      Dispatcher.dispatch({type: 'SEEK_APPRENTICES'});
+      const state = JediStore.getState();
+      expect(state.get(0)).toEqual(jediFromMars);
+      expect(state.get(1)).toEqual(jediFromNeptune);
+      expect(state.get(2)).toEqual(jediFromPluto);
+      expect(state.get(3)).toEqual(emptyJedi1);
+      expect(state.get(4)).toEqual(emptyJedi2);
+    });
+
+    it('Should remove the empty ones when the first real one comes in', () => {
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromEarth});
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromMars});
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromNeptune});
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromPluto});
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromTheMoon});
+      Dispatcher.dispatch({type: 'SEEK_APPRENTICES'});
+      const state = JediStore.getState();
+      expect(state.get(0)).toEqual(jediFromMars);
+      expect(state.get(1)).toEqual(jediFromNeptune);
+      expect(state.get(2)).toEqual(jediFromPluto);
+      expect(state.get(3)).toEqual(emptyJedi1);
+      expect(state.get(4)).toEqual(emptyJedi2);
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromTheMoon});
+      const state2 = JediStore.getState();
+      expect(state2.get(3)).toEqual(jediFromTheMoon);
+      expect(state2.get(4)).toEqual(undefined);
+    });
   });
 
   describe('JediStore: change of world', () => {
@@ -126,6 +268,34 @@ describe('Stores: JediStore', () => {
       Dispatcher.dispatch({type: 'NEW_WORLD', id: 12, name: 'earth'});
       expect(JediStore.hasJediAtHome()).toEqual(false);
     });
+
+    it('Should be applied when a new world comes in', () => {
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromEarth});
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromMars});
+      Dispatcher.dispatch({type: 'NEW_WORLD', id: 1, name: 'another world'});
+      expect(JediStore.hasJediAtHome()).toEqual(false);
+      Dispatcher.dispatch({type: 'NEW_WORLD', id: 12, name: 'earth'});
+      expect(JediStore.hasJediAtHome()).toEqual(true);
+    });
+
+    it('Should be applied when a new jedi comes in', () => {
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromMars});
+      Dispatcher.dispatch({type: 'NEW_WORLD', id: 12, name: 'earth'});
+      expect(JediStore.hasJediAtHome()).toEqual(false);
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromEarth});
+      expect(JediStore.hasJediAtHome()).toEqual(true);
+    });
+
+    it('Should also work with undefined jedis', () => {
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromEarth});
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromMars});
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromNeptune});
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromPluto});
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromTheMoon});
+      Dispatcher.dispatch({type: 'SEEK_APPRENTICES'});
+      Dispatcher.dispatch({type: 'NEW_WORLD', id: 12, name: 'earth'});
+      expect(JediStore.hasJediAtHome()).toEqual(false);
+    });
   });
 
   describe('JediStore: firstHasMaster()', () => {
@@ -144,6 +314,15 @@ describe('Stores: JediStore', () => {
     it('Should return false for an empty state', () => {
       const state = JediStore.getState();
       expect(JediStore.firstHasMaster()).toEqual(false);
+    });
+
+    it('Should also work with undefined jedis', () => {
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromEarth});
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromMars});
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromNeptune});
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromPluto});
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromTheMoon});
+      Dispatcher.dispatch({type: 'SEEK_MASTERS'});
     });
   });
 
