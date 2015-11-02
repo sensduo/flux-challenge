@@ -2,6 +2,7 @@ import Immutable from 'immutable';
 import {ReduceStore} from 'flux/utils';
 
 import Dispatcher from '../dispatcher/Dispatcher';
+import WorldStore from './WorldStore'
 
 
 class JediStore extends ReduceStore {
@@ -16,7 +17,7 @@ class JediStore extends ReduceStore {
         return state.clear();
 
       case 'NEW_JEDI':
-        const jedi = action.jedi;
+        const jedi = this.checkJediHome(WorldStore.getState().get('id'))(action.jedi);
         if (state.isEmpty()) {
           return state.push(jedi);
         }
@@ -38,7 +39,7 @@ class JediStore extends ReduceStore {
         }
 
       case 'NEW_WORLD':
-        return this.checkJediHome(action.id);
+        return this.getState().map(this.checkJediHome(action.id));
 
       default:
         return state;
@@ -46,7 +47,7 @@ class JediStore extends ReduceStore {
   }
 
   checkJediHome(homeId) {
-    return this.getState().map(jedi => {
+    return (jedi) => {
       if (jedi.homeworld.id === homeId) {
         jedi.onCurrentWorld = true;
       }
@@ -54,7 +55,7 @@ class JediStore extends ReduceStore {
         jedi.onCurrentWorld = false;
       }
       return jedi;
-    });
+    };
   }
 
   hasJediAtHome() {
