@@ -4,6 +4,9 @@ import Q from "q";
 import WorldActions from '../actions/WorldActions';
 import JediActions from '../actions/JediActions';
 
+let lastRequest = null;
+let lastSecondRequest = null;
+
 module.exports = {
   openWs() {
     new WebSocket('ws://localhost:4000').onmessage = (event) => {
@@ -14,15 +17,21 @@ module.exports = {
 
   getJedi(url, side) {
     let deferred = Q.defer();
-    $.getJSON(url).done(first => {
+    if(lastRequest) {
+      lastRequest.abort();
+    }
+    lastRequest = $.getJSON(url).done(first => {
       JediActions.newJedi(first);
+      if(lastSecondRequest) {
+        lastSecondRequest.abort();
+      }
       if (side === 'Master') {
-        $.getJSON(first.master.url).done(second => {
+        lastSecondRequest = $.getJSON(first.master.url).done(second => {
           JediActions.newJedi(second);
         });
       }
       else {
-        $.getJSON(first.apprentice.url).done(second => {
+        lastSecondRequest = $.getJSON(first.apprentice.url).done(second => {
           JediActions.newJedi(second);
         });
       }
