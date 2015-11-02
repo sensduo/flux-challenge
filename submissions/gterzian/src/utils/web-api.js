@@ -1,4 +1,5 @@
 import $ from "jquery"
+import Q from "q";
 
 import WorldActions from '../actions/WorldActions';
 import JediActions from '../actions/JediActions';
@@ -12,6 +13,7 @@ module.exports = {
   },
 
   getJedi(url, side) {
+    let deferred = Q.defer();
     $.getJSON(url).done(first => {
       JediActions.newJedi(first);
       if (side === 'Master') {
@@ -24,7 +26,9 @@ module.exports = {
           JediActions.newJedi(second);
         });
       }
+      deferred.resolve(first);
     })
+    return deferred.promise;
   }
 
 };
