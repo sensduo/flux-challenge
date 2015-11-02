@@ -21,4 +21,4 @@ Besides this I've tried to keep things modular and as simple as possible, favori
 
 Actually, if you just start the server locally and paste the `index.html` file in a browser, you should be fine.
 
-I'm pretty sure I missed some requirement(I'll look into moving two Jedis at a step and removing others while scrolling tomorrow), and I do look forward to your feedback. Thanks for taking a look!
+I'm pretty sure I missed some requirement, and I do look forward to your feedback. Thanks for taking a look!
