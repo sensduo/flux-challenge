@@ -14,7 +14,6 @@ module.exports = {
   seekMasters() {
     var action = {
       'type': 'SEEK_MASTERS',
-      'jedi': jedi
     };
     Dispatcher.dispatch(action);
     return action;
@@ -23,7 +22,6 @@ module.exports = {
   seekApprentices() {
     var action = {
       'type': 'SEEK_APPRENTICES',
-      'jedi': jedi
     };
     Dispatcher.dispatch(action);
     return action;

@@ -4,6 +4,35 @@ import {ReduceStore} from 'flux/utils';
 import Dispatcher from '../dispatcher/Dispatcher';
 import WorldStore from './WorldStore'
 
+const emptyJedi1 = {
+  id: '0',
+  name: 'empty1',
+  homeworld: {
+    id: '',
+    name:''
+  },
+  master: {
+    id: 1
+  },
+  apprentice: {
+    id: 1
+  }
+};
+
+const emptyJedi2 = {
+  id: '1',
+  name: 'empty2',
+  homeworld: {
+    id: '',
+    name:''
+  },
+  master: {
+    id: 1
+  },
+  apprentice: {
+    id: 1
+  }
+};
 
 class JediStore extends ReduceStore {
   getInitialState() {
@@ -21,7 +50,7 @@ class JediStore extends ReduceStore {
           return state;
         }
         return state.withMutations((list) => {
-          return list.pop().pop().unshift(undefined).unshift(undefined);
+          return list.pop().pop().unshift(emptyJedi2).unshift(emptyJedi1);
         });
 
       case 'SEEK_APPRENTICES':
@@ -29,7 +58,7 @@ class JediStore extends ReduceStore {
           return state;
         }
         return state.withMutations((list) => {
-          return list.shift().shift().push(undefined).push(undefined);
+          return list.shift().shift().push(emptyJedi1).push(emptyJedi2);
         });
 
       case 'NEW_JEDI':
