@@ -1,15 +1,18 @@
 import React, {Component} from 'react';
 import webApi from '../utils/web-api';
+import JediActions from '../actions/JediActions'
 
 export default class JediScroll extends Component {
 
   render() {
     const props = this.props;
     const _scrollUp = () => {
-      webApi.getJedi(props.first.master.url);
+      JediActions.seekMasters();
+      webApi.getJedi(props.first.master.url, 'Master');
     };
     const _scrollDown = () => {
-      webApi.getJedi(props.last.apprentice.url);
+      JediActions.seekApprentices();
+      webApi.getJedi(props.last.apprentice.url, 'Apprentice');
     };
     if(!props.scrollable) {
       return (
