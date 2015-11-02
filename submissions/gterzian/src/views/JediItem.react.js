@@ -12,6 +12,14 @@ export default class JediItem extends Component {
       );
     }
     else {
+      if (this.props.homeworld === '') {
+        return (
+          <li className='css-slot'>
+            <h3></h3>
+            <h6></h6>
+          </li>
+        );
+      }
       return (
         <li className='css-slot'>
           <h3>{this.props.name}</h3>
