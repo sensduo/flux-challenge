@@ -284,8 +284,6 @@ describe('Stores: JediStore', () => {
       Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromPluto});
       Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromTheMoon});
       Dispatcher.dispatch({type: 'SEEK_MASTERS'});
-      const state = JediStore.getState();
-      expect(JediStore.firstHasMaster()).toEqual(false);
     });
   });
 

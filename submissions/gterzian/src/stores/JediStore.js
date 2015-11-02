@@ -3,36 +3,7 @@ import {ReduceStore} from 'flux/utils';
 
 import Dispatcher from '../dispatcher/Dispatcher';
 import WorldStore from './WorldStore'
-
-const emptyJedi1 = {
-  id: '0',
-  name: 'empty1',
-  homeworld: {
-    id: '',
-    name:''
-  },
-  master: {
-    id: 1
-  },
-  apprentice: {
-    id: 1
-  }
-};
-
-const emptyJedi2 = {
-  id: '1',
-  name: 'empty2',
-  homeworld: {
-    id: '',
-    name:''
-  },
-  master: {
-    id: 1
-  },
-  apprentice: {
-    id: 1
-  }
-};
+import {emptyJedi1, emptyJedi2} from '../constants/JediConstants'
 
 class JediStore extends ReduceStore {
   getInitialState() {
