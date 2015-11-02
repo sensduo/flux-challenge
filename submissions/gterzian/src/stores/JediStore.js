@@ -42,11 +42,23 @@ class JediStore extends ReduceStore {
           return existing.id === jedi.id;
         });
         if (!containsJedi) {
-          const master = state.first().master;
+          const first = state.first();
+          const last = state.last();
+          const master = first.master;
           if (master && (master.id === jedi.id)) {
             return state.unshift(jedi);
           }
           else {
+            if (first.name === emptyJedi1.name) {
+              return state.withMutations((list) => {
+                return list.shift().shift().unshift(jedi);
+              });
+            }
+            if (last.name === emptyJedi2.name) {
+              return state.withMutations((list) => {
+                return list.pop().pop().push(jedi);
+              });
+            }
             return state.push(jedi);
           }
         }
