@@ -1,4 +1,5 @@
 jest.dontMock('../JediStore');
+jest.dontMock('../WorldStore');
 jest.dontMock('../../dispatcher/Dispatcher');
 jest.dontMock('immutable');
 
@@ -133,6 +134,14 @@ describe('Stores: JediStore', () => {
       Dispatcher.dispatch({type: 'NEW_WORLD', id: 1, name: 'another world'});
       expect(JediStore.hasJediAtHome()).toEqual(false);
       Dispatcher.dispatch({type: 'NEW_WORLD', id: 12, name: 'earth'});
+      expect(JediStore.hasJediAtHome()).toEqual(true);
+    });
+
+    it('Should be applied when a new jedi comes in', () => {
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromMars});
+      Dispatcher.dispatch({type: 'NEW_WORLD', id: 12, name: 'earth'});
+      expect(JediStore.hasJediAtHome()).toEqual(false);
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromEarth});
       expect(JediStore.hasJediAtHome()).toEqual(true);
     });
   });
