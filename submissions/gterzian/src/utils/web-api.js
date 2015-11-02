@@ -11,9 +11,19 @@ module.exports = {
     }
   },
 
-  getJedi(url) {
-    $.getJSON(url).done(data => {
-      JediActions.newJedi(data);
+  getJedi(url, side) {
+    $.getJSON(url).done(first => {
+      JediActions.newJedi(first);
+      if (side === 'Master') {
+        $.getJSON(first.master.url).done(second => {
+          JediActions.newJedi(second);
+        });
+      }
+      else {
+        $.getJSON(first.apprentice.url).done(second => {
+          JediActions.newJedi(second);
+        });
+      }
     })
   }
 

@@ -16,6 +16,22 @@ class JediStore extends ReduceStore {
       case 'CLEAR':
         return state.clear();
 
+      case 'SEEK_MASTERS':
+        if(state.count() < 5) {
+          return state;
+        }
+        return state.withMutations((list) => {
+          return list.pop().pop().unshift(undefined).unshift(undefined);
+        });
+
+      case 'SEEK_APPRENTICES':
+        if(state.count() < 5) {
+          return state;
+        }
+        return state.withMutations((list) => {
+          return list.shift().shift().push(undefined).push(undefined);
+        });
+
       case 'NEW_JEDI':
         const currentWorld = WorldStore.getState().get('id');
         const jedi = this.checkJediHome(currentWorld)(action.jedi);
