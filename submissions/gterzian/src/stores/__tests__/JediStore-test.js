@@ -126,6 +126,15 @@ describe('Stores: JediStore', () => {
       Dispatcher.dispatch({type: 'NEW_WORLD', id: 12, name: 'earth'});
       expect(JediStore.hasJediAtHome()).toEqual(false);
     });
+
+    it('Should be applied when a new world comes in', () => {
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromEarth});
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromMars});
+      Dispatcher.dispatch({type: 'NEW_WORLD', id: 1, name: 'another world'});
+      expect(JediStore.hasJediAtHome()).toEqual(false);
+      Dispatcher.dispatch({type: 'NEW_WORLD', id: 12, name: 'earth'});
+      expect(JediStore.hasJediAtHome()).toEqual(true);
+    });
   });
 
   describe('JediStore: firstHasMaster()', () => {
