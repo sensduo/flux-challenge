@@ -6,7 +6,7 @@
 If we focus on the ability for others to quickly jump in, understand and contribute to a codebase, these are matters that can be important
 
 - Test coverage
-- Use of standard tool
+- Use of standard tools
 - Clear project structure
 - A lack of complicated stuff going on
 
