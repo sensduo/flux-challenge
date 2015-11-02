@@ -38,19 +38,23 @@ class JediStore extends ReduceStore {
         }
 
       case 'NEW_WORLD':
-        return state.map(jedi => {
-          if (jedi.homeworld.id === action.id) {
-            jedi.onCurrentWorld = true;
-          }
-          else {
-            jedi.onCurrentWorld = false;
-          }
-          return jedi;
-        });
+        return this.checkJediHome(action.id);
 
       default:
         return state;
     }
+  }
+
+  checkJediHome(homeId) {
+    return this.getState().map(jedi => {
+      if (jedi.homeworld.id === homeId) {
+        jedi.onCurrentWorld = true;
+      }
+      else {
+        jedi.onCurrentWorld = false;
+      }
+      return jedi;
+    });
   }
 
   hasJediAtHome() {
