@@ -9,7 +9,7 @@
     "immutable": "^3.7.4",
     "jquery": "^2.1.4",
     "object-assign": "^1.0.0",
-    "react": "^0.13.3",
+    "react": "^0.14.2",
     "react-dom": "^0.14.0"
   },
   "devDependencies": {
