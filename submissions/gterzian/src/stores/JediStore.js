@@ -18,7 +18,7 @@ class JediStore extends ReduceStore {
         return state.clear();
 
       case 'SEEK_MASTERS':
-        if(state.count() < 5) {
+        if(this.realJedis().count() < 5) {
           return state;
         }
         return state.withMutations((list) => {
@@ -26,7 +26,7 @@ class JediStore extends ReduceStore {
         });
 
       case 'SEEK_APPRENTICES':
-        if(state.count() < 5) {
+        if(this.realJedis().count() < 5) {
           return state;
         }
         return state.withMutations((list) => {
@@ -39,7 +39,7 @@ class JediStore extends ReduceStore {
         if (state.isEmpty()) {
           return state.push(jedi);
         }
-        const realJedis = state.filter(jedi => jedi.homeworld.id);
+        const realJedis = this.realJedis();
         if(realJedis.count() === 5) {
           return state;
         }
@@ -56,12 +56,22 @@ class JediStore extends ReduceStore {
           else {
             if (first.name === emptyJedi1.name) {
               return state.withMutations((list) => {
-                return list.shift().shift().unshift(jedi);
+                return list.shift().shift().unshift(jedi).unshift(emptyJedi2);
+              });
+            }
+            if (first.name === emptyJedi2.name) {
+              return state.withMutations((list) => {
+                return list.shift().unshift(jedi);
               });
             }
             if (last.name === emptyJedi2.name) {
               return state.withMutations((list) => {
-                return list.pop().pop().push(jedi);
+                return list.pop().pop().push(jedi).push(emptyJedi1);
+              });
+            }
+            if (last.name === emptyJedi1.name) {
+              return state.withMutations((list) => {
+                return list.pop().push(jedi);
               });
             }
             return state.push(jedi);
@@ -82,6 +92,10 @@ class JediStore extends ReduceStore {
       default:
         return state;
     }
+  }
+
+  realJedis() {
+    return this.getState().filter(jedi => jedi.homeworld.id);
   }
 
   checkJediHome(homeId) {
