@@ -18,7 +18,13 @@ class JediStore extends ReduceStore {
         return state.clear();
 
       case 'SEEK_MASTERS':
-        if(this.realJedis().count() < 5) {
+        if(state.count() < 5) {
+          return state;
+        }
+        if(state.first().name === emptyJedi1.name) {
+          return state;
+        }
+        if(state.first().name === emptyJedi2.name) {
           return state;
         }
         return state.withMutations((list) => {
@@ -26,7 +32,13 @@ class JediStore extends ReduceStore {
         });
 
       case 'SEEK_APPRENTICES':
-        if(this.realJedis().count() < 5) {
+        if(state.count() < 5) {
+          return state;
+        }
+        if(state.last().name === emptyJedi2.name) {
+          return state;
+        }
+        if(state.last().name === emptyJedi1.name) {
           return state;
         }
         return state.withMutations((list) => {
