@@ -39,6 +39,10 @@ class JediStore extends ReduceStore {
         if (state.isEmpty()) {
           return state.push(jedi);
         }
+        const realJedis = state.filter(jedi => jedi.homeworld.id);
+        if(realJedis.count() === 5) {
+          return state;
+        }
         const containsJedi = state.find((existing) => {
           return existing.id === jedi.id;
         });
