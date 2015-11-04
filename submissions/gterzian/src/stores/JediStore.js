@@ -71,7 +71,6 @@ class JediStore extends ReduceStore {
       case 'NEW_WORLD':
         const newState = this.getState().map(this.checkJediHome(action.id));
         if (this.hasJediAtHome()) {
-          console.log('athome')
           webApi.cancelRequests();
         }
         return newState;
