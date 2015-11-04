@@ -26,3 +26,5 @@ Actually, if you just start the server locally and paste the `index.html` file i
 I'm pretty sure I missed some requirement, and I do look forward to your feedback. Thanks for taking a look!
 
 Special thanks to https://github.com/facebook/flux/tree/master/examples/flux-utils-todomvc for showing me how to use the flux/utils classes, and providing a good `package.json` for initial setup with Watchify, Babel and Jest!
+
+[![Star Wars](http://www.beamsshopblog.jp/data/original/0/101/e822b31ffee5b6091dda9bfb0755abd0ebab21d8.jpg?1446603980)](http://www.beamsshopblog.jp/data/original/0/101/e822b31ffee5b6091dda9bfb0755abd0ebab21d8.jpg?1446603980)
