@@ -93,6 +93,20 @@ describe('Stores: JediStore', () => {
       id: null
     }
   };
+  const jediFromNeptune2 = {
+    id: 4,
+    name: 'jediFromNeptune',
+    homeworld: {
+      id: 4,
+      name:'Neptune'
+    },
+    apprentice: {
+      id: 1
+    },
+    master: {
+      id: 2
+    }
+  };
   const jediFromPluto = {
     id: 5,
     name: 'jediFromPluto',
@@ -239,10 +253,32 @@ describe('Stores: JediStore', () => {
       expect(state.get(2)).toEqual(jediFromTheMoon);
       expect(state.get(3)).toEqual(jediFromEarth);
       expect(state.get(4)).toEqual(jediFromMars);
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromNeptune2});
+      const state2 = JediStore.getState();
+      //JediFromNeptune2 has a master, so add a new slot to fill it in later
+      expect(state2.get(0)).toEqual(emptyJedi2);
+      expect(state2.get(1)).toEqual(jediFromNeptune2);
+    });
+
+    it('Should add an empty jedi if the new one does not have a master', () => {
+      //note these will be reshuffled based on master/apprentice
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromEarth});
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromMars});
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromNeptune});
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromPluto});
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromTheMoon});
+      Dispatcher.dispatch({type: 'SEEK_MASTERS'});
+      const state = JediStore.getState();
+      expect(state.get(0)).toEqual(emptyJedi1);
+      expect(state.get(1)).toEqual(emptyJedi2);
+      expect(state.get(2)).toEqual(jediFromTheMoon);
+      expect(state.get(3)).toEqual(jediFromEarth);
+      expect(state.get(4)).toEqual(jediFromMars);
       Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromNeptune});
       const state2 = JediStore.getState();
-      expect(state2.get(0)).toEqual(emptyJedi2);
-      expect(state2.get(1)).toEqual(jediFromNeptune);
+      //jediFromNeptune has no master, none will be fetched so don't add an empty slot
+      expect(state2.get(0)).toEqual(jediFromNeptune);
+      expect(state2.count()).toEqual(4);
     });
   });
 

@@ -67,9 +67,16 @@ class JediStore extends ReduceStore {
           }
           else {
             if (first.name === emptyJedi1.name) {
-              return state.withMutations((list) => {
-                return list.shift().shift().unshift(jedi).unshift(emptyJedi2);
-              });
+              if (jedi.master.id) {
+                return state.withMutations((list) => {
+                  return list.shift().shift().unshift(jedi).unshift(emptyJedi2);
+                });
+              }
+              else {
+                return state.withMutations((list) => {
+                  return list.shift().shift().unshift(jedi);
+                });
+              }
             }
             if (first.name === emptyJedi2.name) {
               return state.withMutations((list) => {
@@ -77,9 +84,16 @@ class JediStore extends ReduceStore {
               });
             }
             if (last.name === emptyJedi2.name) {
-              return state.withMutations((list) => {
-                return list.pop().pop().push(jedi).push(emptyJedi1);
-              });
+              if (jedi.apprentice.id) {
+                return state.withMutations((list) => {
+                  return list.pop().pop().push(jedi).push(emptyJedi1);
+                });
+              }
+              else {
+                return state.withMutations((list) => {
+                  return list.pop().pop().push(jedi);
+                });
+              }
             }
             if (last.name === emptyJedi1.name) {
               return state.withMutations((list) => {
