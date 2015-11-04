@@ -4,6 +4,7 @@ import {ReduceStore} from 'flux/utils';
 import Dispatcher from '../dispatcher/Dispatcher';
 import WorldStore from './WorldStore'
 import {emptyJedi1, emptyJedi2} from '../constants/JediConstants'
+import webApi from '../utils/web-api';
 
 class JediStore extends ReduceStore {
   getInitialState() {
@@ -68,7 +69,11 @@ class JediStore extends ReduceStore {
         }
 
       case 'NEW_WORLD':
-        return this.getState().map(this.checkJediHome(action.id));
+        const newState = this.getState().map(this.checkJediHome(action.id));
+        if (this.hasJediAtHome()) {
+          webApi.cancelRequests();
+        }
+        return newState;
 
       default:
         return state;
