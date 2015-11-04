@@ -130,7 +130,7 @@ class JediStore extends ReduceStore {
     if (this.getState().isEmpty()) {
       return false;
     }
-    let master = this.getState().first().master;
+    let master = this.realJedis().first().master;
     if (master) {
       if (master.id) {
         return true;
@@ -143,7 +143,7 @@ class JediStore extends ReduceStore {
     if (this.getState().isEmpty()) {
       return false;
     }
-    let apprentice = this.getState().last().apprentice;
+    let apprentice = this.realJedis().last().apprentice;
     if (apprentice) {
       if (apprentice.id) {
         return true;
