@@ -34,7 +34,6 @@ class JediStore extends ReduceStore {
         });
 
       case 'NEW_JEDI':
-        console.log('new jedi:' + action.jedi)
         const currentWorld = WorldStore.getState().get('id');
         const jedi = this.checkJediHome(currentWorld)(action.jedi);
         if (state.isEmpty()) {
@@ -57,12 +56,22 @@ class JediStore extends ReduceStore {
           else {
             if (first.name === emptyJedi1.name) {
               return state.withMutations((list) => {
-                return list.shift().shift().unshift(jedi);
+                return list.shift().shift().unshift(jedi).unshift(emptyJedi2);
+              });
+            }
+            if (first.name === emptyJedi2.name) {
+              return state.withMutations((list) => {
+                return list.shift().unshift(jedi);
               });
             }
             if (last.name === emptyJedi2.name) {
               return state.withMutations((list) => {
-                return list.pop().pop().push(jedi);
+                return list.pop().pop().push(jedi).push(emptyJedi1);
+              });
+            }
+            if (last.name === emptyJedi1.name) {
+              return state.withMutations((list) => {
+                return list.pop().push(jedi);
               });
             }
             return state.push(jedi);
