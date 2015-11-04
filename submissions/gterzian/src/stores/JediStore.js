@@ -18,7 +18,7 @@ class JediStore extends ReduceStore {
         return state.clear();
 
       case 'SEEK_MASTERS':
-        if(state.count() < 5) {
+        if(this.realJedis().count() < 5) {
           return state;
         }
         return state.withMutations((list) => {
@@ -26,7 +26,7 @@ class JediStore extends ReduceStore {
         });
 
       case 'SEEK_APPRENTICES':
-        if(state.count() < 5) {
+        if(this.realJedis().count() < 5) {
           return state;
         }
         return state.withMutations((list) => {
@@ -34,12 +34,13 @@ class JediStore extends ReduceStore {
         });
 
       case 'NEW_JEDI':
+        console.log('new jedi:' + action.jedi)
         const currentWorld = WorldStore.getState().get('id');
         const jedi = this.checkJediHome(currentWorld)(action.jedi);
         if (state.isEmpty()) {
           return state.push(jedi);
         }
-        const realJedis = state.filter(jedi => jedi.homeworld.id);
+        const realJedis = this.realJedis();
         if(realJedis.count() === 5) {
           return state;
         }
@@ -82,6 +83,10 @@ class JediStore extends ReduceStore {
       default:
         return state;
     }
+  }
+
+  realJedis() {
+    return this.getState().filter(jedi => jedi.homeworld.id);
   }
 
   checkJediHome(homeId) {
