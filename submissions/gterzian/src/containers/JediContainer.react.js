@@ -18,8 +18,8 @@ class JediContainer extends Component {
       scrollable: !JediStore.hasJediAtHome(),
       canUp: JediStore.firstHasMaster(),
       canDown: JediStore.lastHasApprentice(),
-      first: JediMap.first(),
-      last: JediMap.last()
+      first: JediStore.realJedis().first(),
+      last: JediStore.realJedis().last()
     };
   }
 
