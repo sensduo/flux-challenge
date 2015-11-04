@@ -107,6 +107,20 @@ describe('Stores: JediStore', () => {
       id: null
     }
   };
+  const jediFromPluto2 = {
+    id: 52,
+    name: 'jediFromPluto2',
+    homeworld: {
+      id: 3,
+      name:'Pluto'
+    },
+    apprentice: {
+      id: 1
+    },
+    master: {
+      id: null
+    }
+  };
 
   beforeEach(function() {
     Dispatcher.dispatch({type: 'CLEAR'});
@@ -124,6 +138,33 @@ describe('Stores: JediStore', () => {
       Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromEarth});
       const state = JediStore.getState();
       expect(state.get(0)).toEqual(jediFromEarth);
+    });
+
+    it('Should ignore any incoming jedi when the list already contains five', () => {
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromEarth});
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromMars});
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromNeptune});
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromPluto});
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromTheMoon});
+      const state = JediStore.getState();
+      expect(state.count()).toBe(5);
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromPluto2});
+      const second_state = JediStore.getState();
+      expect(second_state.count()).toBe(5);
+    });
+
+    it('When counting jedis in state, only take real ones into account', () => {
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromEarth});
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromMars});
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromNeptune});
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromPluto});
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromTheMoon});
+      Dispatcher.dispatch({type: 'SEEK_APPRENTICES'});
+      const state = JediStore.getState();
+      expect(state.count()).toBe(5);
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromPluto2});
+      const second_state = JediStore.getState();
+      expect(second_state.count()).toBe(4);//both empty ones will have been removed, one added
     });
 
     it('When receiving new jedis, add them and keep old ones', () => {
