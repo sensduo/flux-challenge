@@ -164,7 +164,7 @@ describe('Stores: JediStore', () => {
       expect(state.count()).toBe(5);
       Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromPluto2});
       const second_state = JediStore.getState();
-      expect(second_state.count()).toBe(4);//both empty ones will have been removed, one added
+      expect(second_state.count()).toBe(5);
     });
 
     it('When receiving new jedis, add them and keep old ones', () => {
@@ -241,8 +241,8 @@ describe('Stores: JediStore', () => {
       expect(state.get(4)).toEqual(jediFromMars);
       Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromNeptune});
       const state2 = JediStore.getState();
-      expect(state2.get(0)).toEqual(jediFromNeptune);
-      expect(state2.get(1)).toEqual(jediFromTheMoon);
+      expect(state2.get(0)).toEqual(emptyJedi2);
+      expect(state2.get(1)).toEqual(jediFromNeptune);
     });
   });
 
@@ -278,7 +278,7 @@ describe('Stores: JediStore', () => {
       Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromTheMoon});
       const state2 = JediStore.getState();
       expect(state2.get(3)).toEqual(jediFromTheMoon);
-      expect(state2.get(4)).toEqual(undefined);
+      expect(state2.get(4)).toEqual(emptyJedi1);
     });
   });
 
