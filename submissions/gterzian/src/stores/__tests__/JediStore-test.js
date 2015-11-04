@@ -3,6 +3,7 @@ jest.dontMock('../WorldStore');
 jest.dontMock('../../dispatcher/Dispatcher');
 jest.dontMock('immutable');
 
+const webApi = require('../../utils/web-api')
 const JediStore = require('../JediStore');
 const List = require('immutable').List;
 const Dispatcher = require('../../dispatcher/Dispatcher');
@@ -251,6 +252,15 @@ describe('Stores: JediStore', () => {
       const second_state = JediStore.getState();
       expect(second_state.get(0).onCurrentWorld).toEqual(true);
       expect(second_state.get(1).onCurrentWorld).toEqual(false);
+    });
+
+    it('Should call webApi.cancelRequests if a Jedi is at home', () => {
+      webApi.cancelRequests.mockClear();
+      Dispatcher.dispatch({type: 'NEW_JEDI', jedi: jediFromEarth});
+      Dispatcher.dispatch({type: 'NEW_WORLD', id: 12, name: 'earth'});
+      const state = JediStore.getState();
+      expect(state.get(0).onCurrentWorld).toEqual(true);
+      expect(webApi.cancelRequests.mock.instances.length).toBe(1);
     });
   });
 
