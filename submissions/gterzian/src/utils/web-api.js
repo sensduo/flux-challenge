@@ -1,5 +1,6 @@
 import $ from "jquery"
 import Q from "q";
+import Immutable from 'immutable';
 
 import WorldActions from '../actions/WorldActions';
 import JediActions from '../actions/JediActions';
@@ -38,6 +39,14 @@ module.exports = {
       deferred.resolve(first);
     })
     return deferred.promise;
+  },
+
+  cancelRequests() {
+    Immutable.List([lastRequest, lastSecondRequest]).forEach(req => {
+      if (req) {
+        req.abort();
+      }
+    });
   }
 
 };
