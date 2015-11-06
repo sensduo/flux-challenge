@@ -1,7 +1,8 @@
 {
   "name": "flux-challenge-server",
   "version": "1.0.0",
-  "description": "",
+  "description": "local server",
+  "repository": "https://github.com/sensduo/flux-challenge",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

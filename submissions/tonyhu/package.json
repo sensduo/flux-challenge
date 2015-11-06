@@ -1,8 +1,8 @@
 {
   "name": "flux-react-challenge",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Have a go at flux and react",
-  "repository": "https://github.com/gterzian/flux-challenge",
+  "repository": "https://github.com/sensduo/flux-challenge",
   "main": "js/app.js",
   "dependencies": {
     "flux": "^2.1.1",
@@ -30,7 +30,7 @@
     "build": "browserify . -t [envify --NODE_ENV production] -t [babelify --stage 0] | uglifyjs -cm > dist/index.js",
     "test": "jest"
   },
-  "author": "Gregory Terzian",
+  "author": "Tony Hu",
   "browserify": {
     "transform": [
       [
